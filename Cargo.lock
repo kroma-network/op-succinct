@@ -3425,7 +3425,7 @@ dependencies = [
 [[package]]
 name = "kona-client"
 version = "0.1.0"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -3458,7 +3458,7 @@ dependencies = [
 [[package]]
 name = "kona-common"
 version = "0.0.3"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "cfg-if",
  "linked_list_allocator",
@@ -3468,7 +3468,7 @@ dependencies = [
 [[package]]
 name = "kona-common-proc"
 version = "0.0.3"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "anyhow",
  "cfg-if",
@@ -3481,7 +3481,7 @@ dependencies = [
 [[package]]
 name = "kona-derive"
 version = "0.0.3"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloc-no-stdlib",
  "alloy-consensus",
@@ -3507,7 +3507,7 @@ dependencies = [
 [[package]]
 name = "kona-executor"
 version = "0.0.2"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -3524,7 +3524,7 @@ dependencies = [
 [[package]]
 name = "kona-host"
 version = "0.1.0"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -3561,7 +3561,7 @@ dependencies = [
 [[package]]
 name = "kona-mpt"
 version = "0.0.3"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-primitives 0.8.8",
@@ -3576,7 +3576,7 @@ dependencies = [
 [[package]]
 name = "kona-preimage"
 version = "0.0.3"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-primitives 0.8.8",
  "async-trait",
@@ -3589,7 +3589,7 @@ dependencies = [
 [[package]]
 name = "kona-primitives"
 version = "0.0.2"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-eips",
  "alloy-primitives 0.8.8",
@@ -3605,7 +3605,7 @@ dependencies = [
 [[package]]
 name = "kona-providers"
 version = "0.0.1"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-primitives 0.8.8",
@@ -3618,7 +3618,7 @@ dependencies = [
 [[package]]
 name = "kona-providers-alloy"
 version = "0.0.1"
-source = "git+https://github.com/moongate-forks/kona?branch=patch-10-17-kona#5a88fcfc5608a35855a74afa2af509da86d97ba8"
+source = "git+https://github.com/kroma-network/kona?branch=kroma-patch-11-01#e9000575d2b3819e35998674e30f6697221b5926"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4130,8 +4130,7 @@ checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
 [[package]]
 name = "op-alloy-consensus"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ea7162170c6f3cad8f67f4dd7108e3f78349fd553da5b8bebff1e7ef8f38896"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4146,8 +4145,7 @@ dependencies = [
 [[package]]
 name = "op-alloy-genesis"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f3d31dfbbd8dd898c7512f8ce7d30103980485416f668566100b0ed0994b958"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4160,8 +4158,7 @@ dependencies = [
 [[package]]
 name = "op-alloy-network"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d113b325527ba7da271a8793f1c14bdf7f035ce9e0611e668c36fc6812568c7f"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-consensus",
  "alloy-network",
@@ -4174,8 +4171,7 @@ dependencies = [
 [[package]]
 name = "op-alloy-protocol"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "310873e4fbfc41986716c4fb6000a8b49d025d932d2c261af58271c434b05288"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4191,8 +4187,7 @@ dependencies = [
 [[package]]
 name = "op-alloy-rpc-types"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "323c65880e2561aa87f74f8af260fd15b9cc930c448c88a60ae95af86c88c634"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-consensus",
  "alloy-eips",
@@ -4208,8 +4203,7 @@ dependencies = [
 [[package]]
 name = "op-alloy-rpc-types-engine"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "349e7b420f45d1a00216ec4c65fcf3f0057a841bc39732c405c85ae782b94121"
+source = "git+https://github.com/kroma-network/op-alloy?branch=v0.4.0-kroma-patch-11-01#3e9baabd724fb369c8441ea424aba5671d9aba4c"
 dependencies = [
  "alloy-primitives 0.8.8",
  "alloy-rpc-types-engine",
