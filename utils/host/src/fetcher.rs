@@ -28,7 +28,7 @@ use std::{
 };
 use tokio::time::sleep;
 
-use alloy_primitives::{keccak256, Bytes, U256};
+use alloy_primitives::{address, keccak256, Bytes, U256};
 
 use crate::{
     rollup_config::{get_rollup_config_path, merge_rollup_config, save_rollup_config},
@@ -559,11 +559,15 @@ impl OPSuccinctDataFetcher {
             })?;
         let l2_output_state_root = l2_output_block.header.state_root;
         let agreed_l2_head_hash = l2_output_block.header.hash;
+
+        #[cfg(not(feature = "kroma"))]
+        const L2_TO_L1_MESSAGE_PASSER_ADDRESS: Address =
+            address!("4200000000000000000000000000000000000016");
+        #[cfg(feature = "kroma")]
+        const L2_TO_L1_MESSAGE_PASSER_ADDRESS: Address =
+            address!("4200000000000000000000000000000000000003");
         let l2_output_storage_hash = l2_provider
-            .get_proof(
-                Address::from_str("0x4200000000000000000000000000000000000016")?,
-                Vec::new(),
-            )
+            .get_proof(L2_TO_L1_MESSAGE_PASSER_ADDRESS, Vec::new())
             .block_id(l2_start_block.into())
             .await?
             .storage_hash;
@@ -584,10 +588,7 @@ impl OPSuccinctDataFetcher {
         let l2_claim_state_root = l2_claim_block.header.state_root;
         let l2_claim_hash = l2_claim_block.header.hash;
         let l2_claim_storage_hash = l2_provider
-            .get_proof(
-                Address::from_str("0x4200000000000000000000000000000000000016")?,
-                Vec::new(),
-            )
+            .get_proof(L2_TO_L1_MESSAGE_PASSER_ADDRESS, Vec::new())
             .block_id(l2_end_block.into())
             .await?
             .storage_hash;

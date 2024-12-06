@@ -38,17 +38,17 @@ kzg-rs = { version = "0.2.2" }
 
 # kona
 # Note: Switch to latest version of kona once the std::process::Command issue is resolved.
-kona-common = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-common-proc = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-preimage = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona", features = [
+kona-common = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-common-proc = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-preimage = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06", features = [
     "rkyv",
 ] }
-kona-primitives = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-mpt = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-derive = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona", default-features = false }
-kona-executor = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-client = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
-kona-host = { git = "https://github.com/moongate-forks/kona", branch = "patch-10-17-kona" }
+kona-primitives = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-mpt = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-derive = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06", default-features = false }
+kona-executor = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-client = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
+kona-host = { git = "https://github.com/kroma-network/kona", branch = "kroma-patch-12-06" }
 
 # op-succinct
 op-succinct-prove = { path = "scripts/prove" }

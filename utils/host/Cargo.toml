@@ -42,3 +42,7 @@ op-alloy-consensus.workspace = true
 # kona
 kona-host.workspace = true
 kona-primitives.workspace = true
+
+[features]
+default = ["kroma"]
+kroma = []
