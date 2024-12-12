@@ -28,7 +28,7 @@ pub(crate) struct OptimismRollupConfigRPC {
     batch_inbox_address: Address,
     deposit_contract_address: Address,
     l1_system_config_address: Address,
-    protocol_versions_address: Address,
+    protocol_versions_address: Option<Address>,
     da_challenge_contract_address: Option<Address>,
 }
 
@@ -51,13 +51,13 @@ pub(crate) struct ChainConfig {
     arrow_glacier_block: u64,
     gray_glacier_block: u64,
     merge_netsplit_block: u64,
-    shanghai_time: u64,
-    cancun_time: u64,
-    bedrock_block: u64,
-    regolith_time: u64,
-    canyon_time: u64,
-    ecotone_time: u64,
-    fjord_time: u64,
+    shanghai_time: Option<u64>,
+    cancun_time: Option<u64>,
+    bedrock_block: Option<u64>,
+    regolith_time: Option<u64>,
+    canyon_time: Option<u64>,
+    ecotone_time: Option<u64>,
+    fjord_time: Option<u64>,
     terminal_total_difficulty: u64,
     terminal_total_difficulty_passed: bool,
     optimism: OptimismConfig,
@@ -94,7 +94,9 @@ pub(crate) fn merge_rollup_config(
         batch_inbox_address: op_rollup_config_rpc.batch_inbox_address,
         deposit_contract_address: op_rollup_config_rpc.deposit_contract_address,
         l1_system_config_address: op_rollup_config_rpc.l1_system_config_address,
-        protocol_versions_address: op_rollup_config_rpc.protocol_versions_address,
+        protocol_versions_address: op_rollup_config_rpc
+            .protocol_versions_address
+            .unwrap_or_default(),
         da_challenge_address: op_rollup_config_rpc.da_challenge_contract_address,
         ..Default::default()
     };
