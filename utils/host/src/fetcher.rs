@@ -736,12 +736,22 @@ impl OPSuccinctDataFetcher {
         } else {
             // Estimate the L1 block necessary based on the chain config. This is based on the maximum
             // delay between batches being posted on the L2 chain.
-            let max_batch_post_delay_minutes = match self.rollup_config.l2_chain_id {
-                11155420 => 10,
-                10 => 10,
-                8453 => 10,
-                901 => 1,
-                _ => 60,
+            let max_batch_post_delay_minutes = match env::var("MAX_BATCH_POST_DELAY_MIN") {
+                Ok(max_batch_post_delay_minutes) => {
+                    log::info!(
+                        "parse MAX_BATCH_POST_DELAY_MIN: {}",
+                        max_batch_post_delay_minutes
+                    );
+                    max_batch_post_delay_minutes
+                        .parse()
+                        .expect("parse MAX_BATCH_POST_DELAY_MIN failed.")
+                }
+                Err(_) => match self.rollup_config.l2_chain_id {
+                    11155420 => 10,
+                    10 => 10,
+                    8453 => 10,
+                    _ => 60,
+                },
             };
 
             // Get L1 head.
