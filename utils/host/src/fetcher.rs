@@ -604,8 +604,14 @@ impl OPSuccinctDataFetcher {
         let l1_head = self.get_l1_head(l2_end_block).await?;
 
         // Get the workspace root, which is where the data directory is.
-        let metadata = MetadataCommand::new().exec().unwrap();
-        let workspace_root = metadata.workspace_root;
+        let workspace_root = match env::var("WORKSPACE_ROOT") {
+            Ok(workspace_root) => workspace_root,
+            Err(_) => {
+                let metadata = MetadataCommand::new().exec().unwrap();
+                metadata.workspace_root.to_string()
+            }
+        };
+        
         let data_directory = match multi_block {
             ProgramType::Single => {
                 let proof_dir = format!(

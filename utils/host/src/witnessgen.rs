@@ -1,5 +1,6 @@
 use anyhow::Result;
 use std::time::Duration;
+use std::env;
 
 use kona_host::HostCli;
 
@@ -86,16 +87,22 @@ impl WitnessGenExecutor {
     /// Spawn a witness generation process for the given host CLI, and adds it to the list of
     /// ongoing processes.
     pub async fn spawn_witnessgen(&mut self, host_cli: &HostCli) -> Result<()> {
-        let metadata = cargo_metadata::MetadataCommand::new()
-            .exec()
-            .expect("Failed to get cargo metadata");
-        let target_dir = metadata
-            .target_directory
-            .join("native_host_runner/release/native_host_runner");
+        let native_host_runner_path = match env::var("NATIVE_HOST_RUNNER_PATH") {
+            Ok(path) => path,
+            Err(_) => {
+                let metadata = cargo_metadata::MetadataCommand::new()
+                    .exec()
+                    .expect("Failed to get cargo metadata");
+                metadata
+                    .target_directory
+                    .join("native_host_runner/release/native_host_runner").to_string()
+            }
+        };
+
         let args = convert_host_cli_to_args(host_cli);
 
         // Run the native host runner.
-        let child = tokio::process::Command::new(target_dir)
+        let child = tokio::process::Command::new(native_host_runner_path)
             .args(&args)
             .env("RUST_LOG", "info")
             .spawn()?;

@@ -1,5 +1,6 @@
 use std::fs;
 use std::path::PathBuf;
+use std::env;
 
 use alloy::eips::eip1559::BaseFeeParams;
 use alloy_primitives::Address;
@@ -134,10 +135,16 @@ pub fn save_rollup_config(rollup_config: &RollupConfig) -> Result<()> {
 
 /// Get the path to the rollup config file for the given chain id.
 pub fn get_rollup_config_path(l2_chain_id: u64) -> Result<PathBuf> {
-    let workspace_root = cargo_metadata::MetadataCommand::new()
-        .exec()
-        .expect("Failed to get workspace root")
-        .workspace_root;
+    let workspace_root = match env::var("WORKSPACE_ROOT") {
+        Ok(workspace_root) => PathBuf::from(workspace_root),
+        Err(_) => {
+            cargo_metadata::MetadataCommand::new()
+            .exec()
+            .expect("Failed to get workspace root")
+            .workspace_root.into()
+        },
+    };
+    
     let rollup_config_path = workspace_root.join(format!("configs/{}/rollup.json", l2_chain_id));
     Ok(rollup_config_path.into())
 }
