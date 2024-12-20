@@ -680,8 +680,14 @@ impl OPSuccinctDataFetcher {
         let (l1_head_hash, _l1_head_number) = self.get_l1_head(l2_end_block).await?;
 
         // Get the workspace root, which is where the data directory is.
-        let metadata = MetadataCommand::new().exec().unwrap();
-        let workspace_root = metadata.workspace_root;
+        let workspace_root = match env::var("WORKSPACE_ROOT") {
+            Ok(workspace_root) => workspace_root,
+            Err(_) => {
+                let metadata = MetadataCommand::new().exec().unwrap();
+                metadata.workspace_root.to_string()
+            }
+        };
+
         let data_directory = match multi_block {
             ProgramType::Single => {
                 let proof_dir = format!(
@@ -829,11 +835,22 @@ impl OPSuccinctDataFetcher {
         } else {
             // Estimate the L1 block necessary based on the chain config. This is based on the maximum
             // delay between batches being posted on the L2 chain.
-            let max_batch_post_delay_minutes = match l2_chain_id {
-                11155420 => 10,
-                10 => 10,
-                8453 => 10,
-                _ => 60,
+            let max_batch_post_delay_minutes = match env::var("MAX_BATCH_POST_DELAY_MIN") {
+                Ok(max_batch_post_delay_minutes) => {
+                    log::info!(
+                        "parse MAX_BATCH_POST_DELAY_MIN: {}",
+                        max_batch_post_delay_minutes
+                    );
+                    max_batch_post_delay_minutes
+                        .parse()
+                        .expect("parse MAX_BATCH_POST_DELAY_MIN failed.")
+                }
+                Err(_) => match l2_chain_id {
+                    11155420 => 10,
+                    10 => 10,
+                    8453 => 10,
+                    _ => 60,
+                },
             };
 
             // Get L1 head.
