@@ -31,7 +31,9 @@ use tokio::time::sleep;
 use alloy_primitives::{address, keccak256, Bytes, U256};
 
 use crate::{
-    rollup_config::{get_rollup_config_path, merge_rollup_config, save_rollup_config},
+    rollup_config::{
+        get_rollup_config_path, merge_rollup_config, save_rollup_config, OptimismRollupConfigRPC,
+    },
     L2Output, ProgramType,
 };
 
@@ -425,9 +427,28 @@ impl OPSuccinctDataFetcher {
     /// Fetch the rollup config. Combines the rollup config from `optimism_rollupConfig` and the
     /// chain config from `debug_chainConfig`.
     pub async fn fetch_rollup_config(&self) -> Result<RollupConfig> {
-        let rollup_config = self
+        let rollup_config: OptimismRollupConfigRPC = self
             .fetch_rpc_data(RPCMode::L2Node, "optimism_rollupConfig", vec![])
             .await?;
+        #[cfg(feature = "kroma")]
+        // NOTE(Ethan): `debug_chainConfig` works only after Kroma’s MPT time, so the chain config
+        // JSON file is used before the MPT time. Note that before the MPT time, the optimism field
+        // is labeled as ‘kroma’, so it cannot be used.
+        let chain_config_from_json =
+            env::var("CHAIN_CONFIGS_FROM_JSON").unwrap_or_else(|_| "false".to_string());
+        let chain_config = if chain_config_from_json.to_lowercase() == "true" {
+            let chain_config_json_path = Path::new("chain_configs")
+                .join(rollup_config.l2_chain_id.to_string())
+                .join("chain_config.json");
+            let content = fs::read_to_string(chain_config_json_path)
+                .expect("Failed to open chain config json");
+            serde_json::from_str(&content).expect("Invalid chain config json")
+        } else {
+            self.fetch_rpc_data(RPCMode::L2, "debug_chainConfig", vec![])
+                .await?
+        };
+
+        #[cfg(not(feature = "kroma"))]
         let chain_config = self
             .fetch_rpc_data(RPCMode::L2, "debug_chainConfig", vec![])
             .await?;
@@ -611,7 +632,7 @@ impl OPSuccinctDataFetcher {
                 metadata.workspace_root.to_string()
             }
         };
-        
+
         let data_directory = match multi_block {
             ProgramType::Single => {
                 let proof_dir = format!(

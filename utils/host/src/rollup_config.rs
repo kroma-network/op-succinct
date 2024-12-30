@@ -18,7 +18,7 @@ pub(crate) struct OptimismRollupConfigRPC {
     seq_window_size: u64,
     channel_timeout: u64,
     l1_chain_id: u64,
-    l2_chain_id: u64,
+    pub l2_chain_id: u64,
     regolith_time: Option<u64>,
     canyon_time: Option<u64>,
     delta_time: Option<u64>,
