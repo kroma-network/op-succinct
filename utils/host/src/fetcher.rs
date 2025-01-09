@@ -31,9 +31,7 @@ use tokio::time::sleep;
 use alloy_primitives::{address, keccak256, Bytes, U256};
 
 use crate::{
-    rollup_config::{
-        get_rollup_config_path, merge_rollup_config, save_rollup_config, OptimismRollupConfigRPC,
-    },
+    rollup_config::{get_rollup_config_path, merge_rollup_config, save_rollup_config},
     L2Output, ProgramType,
 };
 
@@ -136,11 +134,30 @@ impl OPSuccinctDataFetcher {
         fetcher.l1_block_time_secs = l1_block_time_secs;
 
         // Load and save the rollup config.
-        let rollup_config = fetcher
-            .fetch_rollup_config()
-            .await
-            .expect("Failed to fetch rollup config");
-        save_rollup_config(&rollup_config).expect("Failed to save rollup config");
+        let rollup_config_from_file: bool = env::var("ROLLUP_CONFIG_FROM_FILE")
+            .unwrap_or("false".to_string())
+            .parse()
+            .unwrap();
+        let rollup_config: RollupConfig = if rollup_config_from_file {
+            let l2_chain_id: u64 = fetcher
+                .fetch_rpc_data(RPCMode::L2, "net_version", vec![])
+                .await
+                .unwrap();
+            let rollup_config_json_path = Path::new("configs")
+                .join(l2_chain_id.to_string())
+                .join("rollup.json");
+            let content = fs::read_to_string(rollup_config_json_path)
+                .expect("Failed to open chain config json");
+            serde_json::from_str(&content).expect("Invalid chain config json")
+        } else {
+            let rollup_config = fetcher
+                .fetch_rollup_config()
+                .await
+                .expect("Failed to fetch rollup config");
+            save_rollup_config(&rollup_config).expect("Failed to save rollup config");
+            rollup_config
+        };
+
         fetcher.rollup_config = rollup_config;
 
         fetcher
@@ -427,28 +444,9 @@ impl OPSuccinctDataFetcher {
     /// Fetch the rollup config. Combines the rollup config from `optimism_rollupConfig` and the
     /// chain config from `debug_chainConfig`.
     pub async fn fetch_rollup_config(&self) -> Result<RollupConfig> {
-        let rollup_config: OptimismRollupConfigRPC = self
+        let rollup_config = self
             .fetch_rpc_data(RPCMode::L2Node, "optimism_rollupConfig", vec![])
             .await?;
-        #[cfg(feature = "kroma")]
-        // NOTE(Ethan): `debug_chainConfig` works only after Kroma’s MPT time, so the chain config
-        // JSON file is used before the MPT time. Note that before the MPT time, the optimism field
-        // is labeled as ‘kroma’, so it cannot be used.
-        let chain_config_from_json =
-            env::var("CHAIN_CONFIGS_FROM_JSON").unwrap_or_else(|_| "false".to_string());
-        let chain_config = if chain_config_from_json.to_lowercase() == "true" {
-            let chain_config_json_path = Path::new("chain_configs")
-                .join(rollup_config.l2_chain_id.to_string())
-                .join("chain_config.json");
-            let content = fs::read_to_string(chain_config_json_path)
-                .expect("Failed to open chain config json");
-            serde_json::from_str(&content).expect("Invalid chain config json")
-        } else {
-            self.fetch_rpc_data(RPCMode::L2, "debug_chainConfig", vec![])
-                .await?
-        };
-
-        #[cfg(not(feature = "kroma"))]
         let chain_config = self
             .fetch_rpc_data(RPCMode::L2, "debug_chainConfig", vec![])
             .await?;
