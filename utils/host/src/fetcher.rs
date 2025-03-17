@@ -79,13 +79,21 @@ pub enum CacheMode {
 }
 
 fn get_rpcs() -> RPCConfig {
+    // NOTE(Ethan): `Url::parse` always appends a trailing slash to the URL. This is incompatible with the current beacon client,
+    // so the slash is removed. It is recommended to revert this change when upstream modifications are made.
+    let mut l1_beacon_rpc =
+        Url::parse(&env::var("L1_BEACON_RPC").expect("L1_BEACON_RPC must be set"))
+            .expect("L1_BEACON_RPC must be a valid URL")
+            .to_string();
+    if l1_beacon_rpc.ends_with("/") {
+        l1_beacon_rpc.pop();
+    };
+
     RPCConfig {
         l1_rpc: Url::parse(&env::var("L1_RPC").expect("L1_RPC must be set"))
             .expect("L1_RPC must be a valid URL")
             .to_string(),
-        l1_beacon_rpc: Url::parse(&env::var("L1_BEACON_RPC").expect("L1_BEACON_RPC must be set"))
-            .expect("L1_BEACON_RPC must be a valid URL")
-            .to_string(),
+        l1_beacon_rpc,
         l2_rpc: Url::parse(&env::var("L2_RPC").expect("L2_RPC must be set"))
             .expect("L2_RPC must be a valid URL")
             .to_string(),
