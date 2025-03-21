@@ -89,11 +89,11 @@ op-alloy-rpc-types-engine = { git = "https://github.com/kroma-network/op-alloy",
 op-alloy-network = { git = "https://github.com/kroma-network/op-alloy", default-features = false, branch = "feat/support-pectra" }
 
 # sp1
-sp1-lib = { version = "3.0.0", features = ["verify"] }
-sp1-zkvm = { version = "3.0.0", features = ["verify"] }
+sp1-lib = { version = "3.4.0", features = ["verify"] }
+sp1-zkvm = { version = "3.4.0", features = ["verify"] }
 # Note: This rev is on a branch which includes skipping deferred verification + executor opts + SP1 mock groth16 bytes fix. Once 4.0.0 is released, update this.
-sp1-sdk = { git = "https://github.com/succinctlabs/sp1.git", rev = "df1ed4b2c11e9f33f682f240c282cfba1c8bc453" }
-sp1-build = { version = "3.0.0" }
+sp1-sdk = {version = "3.4.0"}
+sp1-build = { version = "3.4.0" }
 
 [profile.release-client-lto]
 inherits = "release"
